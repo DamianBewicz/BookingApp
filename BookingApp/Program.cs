@@ -1,7 +1,13 @@
 using BookingApp.Data;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var conStrBuilder = new SqlConnectionStringBuilder(
+        builder.Configuration.GetConnectionString("DefaultConnectionString"));
+conStrBuilder.DataSource = builder.Configuration["Source"];
+var connection = conStrBuilder.ConnectionString;
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
