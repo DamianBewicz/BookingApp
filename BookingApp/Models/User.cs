@@ -1,19 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace BookingApp.Models
 {
-    public class User
+    public class User : IdentityUser
     {
-        [Key]
-        public int Id { get; set; }
-        [Required]
-        [StringLength(255, ErrorMessage = "Must be between 5 and 255 characters", MinimumLength = 5)]
-        public string Name { get; set; }
-        [Required(ErrorMessage = "Email address is required")]
-        [EmailAddress]
-        public string EmailAddress { get; set; }
-        [Required]
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
     }
 }
