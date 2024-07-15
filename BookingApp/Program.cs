@@ -1,20 +1,11 @@
 using BookingApp.Data;
-//using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//var conStrBuilder = new SqlConnectionStringBuilder(
-//    builder.Configuration.GetConnectionString("DefaultConnection"));
-//string? source = @builder.Configuration["Source"];
-//conStrBuilder.DataSource = source;
-//var connection = conStrBuilder.ConnectionString;
-
-
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    Console.WriteLine(builder.Configuration.GetConnectionString("DefaultConnection"));
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
