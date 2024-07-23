@@ -12,5 +12,6 @@ namespace BookingApp.Data
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<House> Houses { get; set; }
     }
 }
