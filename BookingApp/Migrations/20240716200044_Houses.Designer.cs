@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240716191922_Houses")]
+    [Migration("20240716200044_Houses")]
     partial class Houses
     {
         /// <inheritdoc />
@@ -35,11 +35,13 @@ namespace BookingApp.Migrations
 
                     b.Property<string>("CheckIn")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("CheckOut")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("Description")
                         .IsRequired()

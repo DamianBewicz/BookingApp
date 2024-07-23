@@ -20,8 +20,8 @@ namespace BookingApp.Migrations
                     Title = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    CheckIn = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CheckOut = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CheckIn = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    CheckOut = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     LivingSpace = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
