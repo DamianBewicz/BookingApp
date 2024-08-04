@@ -35,7 +35,7 @@ namespace BookingApp.Controllers
                 return View(registerViewModel);
             }
 
-            User newUser = new User()
+			User newUser = new User()
             {
                 Email = registerViewModel.EmailAddress,
                 UserName = registerViewModel.UserName,
@@ -43,21 +43,17 @@ namespace BookingApp.Controllers
 
             var response = await _userManager.CreateAsync(newUser, registerViewModel.Password);
 
-   //         if (response.Succeeded)
-   //         {
-   //             Console.WriteLine("SUCCESS");
-   //         }
-   //         else 
-   //         {
-			//	Console.WriteLine("FAILED");
-			//	Console.WriteLine(response.Errors);
-			//	Console.WriteLine(response.Errors.ToList());
-			//	Console.WriteLine(response.Errors.First());
-			//	var message = string.Join(", ", response.Errors.Select(x => "Code " + x.Code + " Description" + x.Description));
-   //             Console.WriteLine(message);
-			//}
+            if (response.Succeeded)
+            {
+				return RedirectToAction("Index", "Home");
+			}
 
-			return View();
+			foreach (var error in response.Errors)
+			{
+				ModelState.AddModelError("Password", error.Description);
+			}
+
+			return View(registerViewModel);
 		}
 	}
 }
