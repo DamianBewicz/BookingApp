@@ -3,6 +3,7 @@ using BookingApp.Data;
 using Microsoft.AspNetCore.Identity;
 using BookingApp.Models;
 using BookingApp.ViewModels.User;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookingApp.Controllers
 {
@@ -19,13 +20,18 @@ namespace BookingApp.Controllers
             _signInManager = signInManager;
 		}
 
-
+		[AllowAnonymous]
 		public IActionResult Login()
 		{
+			if (User.Identity != null && User.Identity.IsAuthenticated)
+			{
+				return RedirectToAction("Index", "Home");
+			}
 			return View();
 		}
 
         [HttpPost]
+		[AllowAnonymous]
 		public async Task<IActionResult> Login(LoginViewModel model)
         {
             if(!ModelState.IsValid) { return View(model); }
@@ -44,12 +50,18 @@ namespace BookingApp.Controllers
                     }
                 }
             }
-            return View(model);
-        }
+
+			ModelState.AddModelError("", "Invalid login attempt.");
+			return View(model);
+		}
 
 		public IActionResult Register()
         {
-            return View();
+			if (User.Identity != null && User.Identity.IsAuthenticated)
+			{
+				return RedirectToAction("Index", "Home");
+			}
+			return View();
         }
 
         [HttpPost]
