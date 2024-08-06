@@ -10,14 +10,44 @@ namespace BookingApp.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public UserController(UserManager<User> userManager, ApplicationDbContext context)
+        public UserController(UserManager<User> userManager, SignInManager<User> signInManager, ApplicationDbContext context)
         {
             _context = context;
             _userManager = userManager;
+            _signInManager = signInManager;
+		}
+
+
+		public IActionResult Login()
+		{
+			return View();
+		}
+
+        [HttpPost]
+		public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if(!ModelState.IsValid) { return View(model); }
+
+            User? user = await _userManager.FindByEmailAsync(model.Email);
+
+            if (user != null)
+            {
+                bool isPasswordCorrect = await _userManager.CheckPasswordAsync(user, model.Password);
+                if (isPasswordCorrect)
+                {
+                    Microsoft.AspNetCore.Identity.SignInResult signInResult = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+                    if (signInResult.Succeeded)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+            }
+            return View(model);
         }
 
-        public IActionResult Register()
+		public IActionResult Register()
         {
             return View();
         }
